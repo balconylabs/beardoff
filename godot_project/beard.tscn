@@ -1,10 +1,11 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://beard.gd" type="Script" id=1]
 [ext_resource path="res://sprites/HeroBeard_sprite.png" type="Texture" id=2]
 [ext_resource path="res://sprites/beardMask.png" type="Texture" id=3]
+[ext_resource path="res://icon.png" type="Texture" id=4]
 
-[node name="Node2D" type="Node2D"]
+[node name="gameController" type="Node2D"]
 
 script = ExtResource( 1 )
 _sections_unfolded = [ "Transform" ]
@@ -46,5 +47,44 @@ z = -3
 texture = ExtResource( 3 )
 offset = Vector2( 12, 40 )
 _sections_unfolded = [ "Offset", "Transform", "Z" ]
+
+[node name="Control" type="Control" parent="."]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+
+[node name="Button" type="Button" parent="Control"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 627.0
+margin_top = 341.0
+margin_right = 703.0
+margin_bottom = 411.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+text = "Shave 'em"
+icon = ExtResource( 4 )
+flat = true
+
+[connection signal="pressed" from="Control/Button" to="." method="_on_Button_pressed"]
 
 
