@@ -11,7 +11,7 @@ config_version=3
 [application]
 
 config/name="Beardly"
-run/main_scene="res://beard.tscn"
+run/main_scene="res://Scenes/MainScene.tscn"
 config/icon="res://icon.png"
 
 [gdnative]

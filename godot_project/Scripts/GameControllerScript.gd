@@ -21,8 +21,6 @@ func _ready():
 	head = get_node("headSprite")
 	beard = get_node("longbeard")
 	
-	connect("restartSignal",self,"restart")
-	
 	set_process(true)
 
 func _process(delta):
@@ -61,7 +59,7 @@ func lose():
 	
 	#display "game over"
 	#show restart option
-	var gameOverScene = load("res://gameOver.tscn")
+	var gameOverScene = load("res://Scenes/GameOverScene.tscn")
 	var gameOverNode = gameOverScene.instance()
 	var pos = Vector2(24 * 7.5, 0);
 	gameOverNode.set_position(pos)
