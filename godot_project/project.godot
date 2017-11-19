@@ -14,6 +14,11 @@ config/name="Beardly"
 run/main_scene="res://Scenes/MainScene.tscn"
 config/icon="res://icon.png"
 
+[display]
+
+window/stretch/mode="viewport"
+window/stretch/aspect="keep"
+
 [gdnative]
 
 singletons=[  ]
