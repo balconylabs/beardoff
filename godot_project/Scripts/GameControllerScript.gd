@@ -12,28 +12,18 @@ var currentTick = 0
 #how long a tick takes
 var secondsPerTick = .1
 
-
-
 #node variables
-var head
-var beard
 var gameOverNode
+var beardStatusNode
 
 #scene variables
 var gameOverScene
-
-#number of ticks before the face sprite freezes animation
-var numTicksAnimSwitch = 12
-
-#number of ticks before the long beard sprite is displayed
-var beardVisibleTicks = 11
+var beardStatusScene
 
 #scale factor to fill screen with beard display
 var beardDisplayPixelScale = 7.5
+var beardScale
 
-#initial position of long beard sprite
-var initBeardPosX = 0
-var initBeardPosY = -404
  
 var gameRunning = false
 
@@ -41,13 +31,15 @@ var gameRunning = false
 
 
 func _ready():
-	# Called every time the node is added to the scene.
-	# Initialization here
-	head = get_node("headSprite")
-	beard = get_node("longbeard")
 	
 	gameOverScene = load("res://Scenes/GameOverScene.tscn")
 	gameOverNode = gameOverScene.instance()
+	
+	beardStatusScene = load("res://Scenes/BeardStatusScene.tscn")
+	beardStatusNode = beardStatusScene.instance()
+	add_child(beardStatusNode)
+	beardScale = Vector2(beardDisplayPixelScale,beardDisplayPixelScale)
+	beardStatusNode.set_scale(beardScale)
 	
 	gameRunning = true
 	set_process(true)
@@ -59,32 +51,24 @@ func _process(delta):
 		if(elapsedTime - lastTickTime >= secondsPerTick):
 			
 			#do tick
+			beardStatusNode.tick(currentTick)
 			
 			#if OS.is_debug_build():
 			#	print("tick: ", currentTick)
 						
-			if(currentTick < numTicksAnimSwitch):
-				head.set_frame(head.get_frame() + 1)
-			else:
-				var pos = beard.get_position()
-				beard.set_position(Vector2(pos.x, pos.y + 1 * beardDisplayPixelScale))
 			
-			if(currentTick == beardVisibleTicks):
-				beard.show()
 			
 			currentTick += 1
 			lastTickTime = elapsedTime
 			
-		if (beard.position.y >= 0):
+		if(beardStatusNode.isTooLong()):
 			lose()
 
 
 func _on_Button_pressed():
 	
 	#shave
-	head.set_frame(0)
-	beard.set_position(Vector2(initBeardPosX, initBeardPosY))
-	beard.hide()
+	beardStatusNode.shave()
 	currentTick = 0
 	
 func lose():
@@ -108,9 +92,10 @@ func restart():
 	currentTick = 0
 	
 	#reset beard display
-	head.set_frame(0)
-	beard.set_position(Vector2(initBeardPosX, initBeardPosY))
-	beard.hide()
+	remove_child(beardStatusNode)
+	beardStatusNode = beardStatusScene.instance()
+	add_child(beardStatusNode)
+	beardStatusNode.set_scale(beardScale)
 
 	#reset the game board
 	

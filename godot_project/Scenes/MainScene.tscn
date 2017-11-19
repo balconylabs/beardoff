@@ -1,52 +1,12 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Scripts/GameControllerScript.gd" type="Script" id=1]
-[ext_resource path="res://Sprites/HeroBeard_sprite.png" type="Texture" id=2]
-[ext_resource path="res://Sprites/beardMask.png" type="Texture" id=3]
-[ext_resource path="res://icon.png" type="Texture" id=4]
+[ext_resource path="res://icon.png" type="Texture" id=2]
 
 [node name="gameController" type="Node2D"]
 
 script = ExtResource( 1 )
 _sections_unfolded = [ "Transform" ]
-
-[node name="headSprite" type="Sprite" parent="."]
-
-scale = Vector2( 7.5, 7.5 )
-texture = ExtResource( 2 )
-offset = Vector2( 12, 40 )
-vframes = 2
-hframes = 7
-_sections_unfolded = [ "Animation", "Offset", "Transform" ]
-
-[node name="longbeard" type="Sprite" parent="."]
-
-visible = false
-position = Vector2( 0, -404 )
-scale = Vector2( 7.5, 7.5 )
-z = -1
-texture = ExtResource( 2 )
-offset = Vector2( 12, 40 )
-vframes = 2
-hframes = 7
-frame = 13
-_sections_unfolded = [ "Animation", "Offset", "Region", "Transform", "Visibility", "Z" ]
-
-[node name="beardMaskSprite" type="Sprite" parent="."]
-
-scale = Vector2( 7.5, 7.5 )
-z = -1
-texture = ExtResource( 3 )
-offset = Vector2( 12, 40 )
-_sections_unfolded = [ "Offset", "Transform", "Z" ]
-
-[node name="beardMaskSprite2" type="Sprite" parent="."]
-
-scale = Vector2( 7.5, 70 )
-z = -3
-texture = ExtResource( 3 )
-offset = Vector2( 12, 40 )
-_sections_unfolded = [ "Offset", "Transform", "Z" ]
 
 [node name="Control" type="Control" parent="."]
 
@@ -82,7 +42,7 @@ enabled_focus_mode = 2
 shortcut = null
 group = null
 text = "Shave 'em"
-icon = ExtResource( 4 )
+icon = ExtResource( 2 )
 flat = true
 
 [connection signal="pressed" from="Control/Button" to="." method="_on_Button_pressed"]

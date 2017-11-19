@@ -1,0 +1,47 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Scenes/BeardStatusScene.gd" type="Script" id=1]
+[ext_resource path="res://Sprites/HeroBeard_sprite.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/beardMask.png" type="Texture" id=3]
+
+[node name="BeardStatus" type="Node2D"]
+
+script = ExtResource( 1 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="headSprite" type="Sprite" parent="."]
+
+texture = ExtResource( 2 )
+offset = Vector2( 12, 40 )
+vframes = 2
+hframes = 7
+_sections_unfolded = [ "Animation", "Offset", "Transform" ]
+
+[node name="longbeard" type="Sprite" parent="."]
+
+visible = false
+position = Vector2( 0, -404 )
+z = -1
+texture = ExtResource( 2 )
+offset = Vector2( 12, 40 )
+vframes = 2
+hframes = 7
+frame = 13
+_sections_unfolded = [ "Animation", "Offset", "Region", "Transform", "Visibility", "Z" ]
+
+[node name="beardMaskSprite" type="Sprite" parent="."]
+
+z = -1
+texture = ExtResource( 3 )
+offset = Vector2( 12, 40 )
+_sections_unfolded = [ "Offset", "Transform", "Z" ]
+
+[node name="beardMaskSprite2" type="Sprite" parent="."]
+
+scale = Vector2( 1, 10 )
+z = -3
+texture = ExtResource( 3 )
+offset = Vector2( 12, 40 )
+_sections_unfolded = [ "Offset", "Transform", "Z" ]
+
+
