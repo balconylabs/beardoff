@@ -4,7 +4,9 @@ extends Area2D
 # var a = 2
 # var b = "textvar"
 
-export var isDragging = false
+var isDragging = false
+var isClickable = true
+var overValidTarget = false
 
 var mouse_tile_pos_offset
 
@@ -12,8 +14,6 @@ var original_position
 
 var tile_node
 var tile_size
-
-export var overValidTarget = false
 
 func _ready():
 	# Called every time the node is added to the scene.
@@ -29,7 +29,7 @@ func _process(delta):
 	
 
 func _input_event(viewport, event, shape_idx):
-	if(event is InputEventMouseButton and event.button_index == BUTTON_LEFT):
+	if(event is InputEventMouseButton and event.button_index == BUTTON_LEFT and isClickable):
 		if(event.pressed):
 			print("Clicked")
 			isDragging = true
@@ -50,3 +50,24 @@ func _input_event(viewport, event, shape_idx):
 			isDragging = false
 						
 			
+
+
+func _on_tile_area_entered( area ):
+	print("area entered - name:",area.get_name())
+	print("group(s) of entered area: ", area.get_groups())
+	if(area.is_in_group("validtarget")):
+		#add tile to target
+		overValidTarget = true
+		pass
+	
+	
+	
+	
+
+func _on_tile_area_exited( area ):
+	print("area exited - name:",area.get_name())
+	print("group(s) of exited area: ", area.get_groups())
+	if(area.is_in_group("validtarget")):
+		#add tile to target
+		overValidTarget = false
+	pass # replace with function body
