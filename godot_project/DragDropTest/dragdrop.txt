@@ -1,0 +1,4 @@
+https://godotengine.org/qa/3825/check-if-sprite-self-is-clicked
+
+
+
