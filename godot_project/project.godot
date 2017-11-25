@@ -14,10 +14,6 @@ config/name="Beardly"
 run/main_scene="res://Scenes/MainScene.tscn"
 config/icon="res://icon.png"
 
-[debug]
-
-settings/gdscript/max_call_stack=2147483647
-
 [display]
 
 window/stretch/mode="viewport"
@@ -31,7 +27,3 @@ singletons=[  ]
 
 quality/shadows/filter_mode=0
 environment/default_environment="res://default_env.tres"
-
-[sta]
-
-=false
