@@ -1,5 +1,7 @@
 extends Node2D
 
+var iterations = 0
+
 #total time elapsed this game
 var elapsedTime = 0
 
@@ -10,7 +12,7 @@ var lastTickTime = 0
 var currentTick = 0
 
 #how long a tick takes
-var secondsPerTick = .5
+var secondsPerTick = 10
 
 #node variables
 var gameOverNode
@@ -50,13 +52,14 @@ const QUEUE_Y_OFFSET = 0
 enum ConnectionType {
 	LEFT_AND_RIGHT,
 	UP_AND_DOWN,
-	UP_AND_DOWN_AND_L_AND_R,
+	UP_AND_DOWN_AND_LEFT_AND_RIGHT,
 	LEFT_AND_DOWN,
 	UP_AND_LEFT,
 	RIGHT_AND_UP,
 	DOWN_AND_RIGHT
 }
 
+var solutionPath = []
 
 
 
@@ -64,7 +67,6 @@ enum ConnectionType {
 
 
 func _ready():
-	
 	
 	gameOverScene = load("res://Scenes/GameOverScene.tscn")
 	gameOverNode = gameOverScene.instance()
@@ -137,24 +139,32 @@ func initGameBoard():
 		gameboard.append([])
 		for j in range(GB_ROWS):
 			gameboard[i].append(boardSpaceScene.instance())
-			#gameboard[i][j]=boardSpaceScene.instance()
-#			if(OS.is_debug_build()): print(gameboard[i][j])
-				
 			gameboard[i][j].set_position(Vector2(i * TILE_WIDTH + TILE_X_OFFSET + GB_X_OFFSET, j * TILE_HEIGHT + TILE_Y_OFFSET + GB_Y_OFFSET))
 			get_node("GameBoardNode").add_child(gameboard[i][j],true)
+			#set start and end tiles
+			if(i == 0 && j == 0):
+				gameboard[i][j].isPlug = true
+				gameboard[i][j].get_node("Area2D/icon").show()
+				gameboard[i][j].get_node("Area2D/empty_tile_64x64").hide()
+				gameboard[i][j].isEmpty = false
+			if(i == GB_COLS-1 && j == GB_ROWS-1):
+				gameboard[i][j].isRazor = true
+				gameboard[i][j].get_node("Area2D/icon").show()
+				gameboard[i][j].get_node("Area2D/empty_tile_64x64").hide()
+				gameboard[i][j].isEmpty = false	
 			
 	#set gameboard neighbors
 	for i in range(GB_COLS):
 		for j in range(GB_ROWS):
 				#set neighbors
 			if(i > 0):
-				gameboard[i][j].L = gameboard[i-1][j]
+				gameboard[i][j].LEFT = gameboard[i-1][j]
 			if(i < GB_COLS - 1):
-				gameboard[i][j].R = gameboard[i+1][j]
+				gameboard[i][j].RIGHT = gameboard[i+1][j]
 			if(j > 0):
-				gameboard[i][j].U = gameboard[i][j-1]
+				gameboard[i][j].UP = gameboard[i][j-1]
 			if(j < GB_ROWS - 1):
-				gameboard[i][j].D = gameboard[i][j+1]
+				gameboard[i][j].DOWN = gameboard[i][j+1]
 				
 			#print the neigbors
 #			print("U ",gameboard[i][j].U)
@@ -243,3 +253,57 @@ func enqueueNewTile():
 	tileQueue.push_front(newTile)		
 	
 	get_node("WireTilesNode").add_child(newTile)
+	
+	
+	
+func doCheck():
+	iterations = 0
+	solutionPath = []
+	if(findSolutionPath(gameboard[0][0])):
+		print("Win! iterations=", iterations)
+	else:
+		print("No Win... iterations=",iterations)
+
+
+
+
+func findSolutionPath(node):
+	iterations += 1
+
+	if(node == null):
+		return false
+		
+
+	if(node.isRazor):
+		return true
+
+
+	if(node == null):
+		return false
+		
+
+	solutionPath.push_back(node)
+	
+
+	if(node.isConnectedTo("UP") && findSolutionPath(node.UP)):
+		return true;
+	
+
+	if(node.isConnectedTo("DOWN") && findSolutionPath(node.DOWN)):
+		return true;
+	
+
+	if(node.isConnectedTo("LEFT") && findSolutionPath(node.LEFT)):
+		return true;
+	
+	
+	if(node.isConnectedTo("RIGHT") && findSolutionPath(node.RIGHT)):
+		return true;
+	
+	
+
+	solutionPath.pop_back()
+	
+	
+
+	return false
