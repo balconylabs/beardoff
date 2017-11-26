@@ -17,6 +17,8 @@ enum ConnectionType {
 	DOWN_AND_RIGHT
 }
 
+var label
+
 #neighbors
 var UP = null
 var DOWN = null
@@ -57,13 +59,15 @@ func _on_Area2D_mouse_exited():
 
 func _on_Area2D_input_event( viewport, event, shape_idx ):
 	if(event is InputEventMouseButton && event.pressed):
+		#add a wire tile to this empty space
 		if(event.button_index == BUTTON_LEFT && isEmpty):
 			wireTile = gc.grabNextTile()
 #			if(OS.is_debug_build()): print(wireTile)
 			wireTile.set_position(position)
 			isEmpty = false
-			gc.doCheck()
-
+			#check if solved
+			gc.checkForSolution()
+			
 func isConnectedTo(direction):
 	if(isPlug):
 		if(direction == "DOWN"):
@@ -98,31 +102,33 @@ func isConnectedTo(direction):
 				
 				 
 		if(direction == "DOWN"):
-			if(DOWN && DOWN.wireTile != null):
+#			if(DOWN && DOWN.wireTile != null):
+			if(DOWN):
 				if(
 				(wireTile.connectionType == ConnectionType.DOWN_AND_RIGHT || 
 				wireTile.connectionType == ConnectionType.UP_AND_DOWN || 
 				wireTile.connectionType == ConnectionType.LEFT_AND_DOWN ||
 				wireTile.connectionType == ConnectionType.UP_AND_DOWN_AND_LEFT_AND_RIGHT) 
 				&& 
-				(DOWN.wireTile.connectionType == ConnectionType.UP_AND_DOWN || 
+				(DOWN.isRazor || (DOWN.wireTile && (DOWN.wireTile.connectionType == ConnectionType.UP_AND_DOWN || 
 				DOWN.wireTile.connectionType == ConnectionType.UP_AND_LEFT || 
 				DOWN.wireTile.connectionType == ConnectionType.RIGHT_AND_UP || 
-				DOWN.wireTile.connectionType == ConnectionType.UP_AND_DOWN_AND_LEFT_AND_RIGHT)):
+				DOWN.wireTile.connectionType == ConnectionType.UP_AND_DOWN_AND_LEFT_AND_RIGHT)))):
 					return true
 			
 		if(direction == "RIGHT"):
-			if(RIGHT && RIGHT.wireTile != null):
+#			if(RIGHT && RIGHT.wireTile != null):
+			if(RIGHT):
 				if(
 				(wireTile.connectionType == ConnectionType.RIGHT_AND_UP || 
 				wireTile.connectionType == ConnectionType.DOWN_AND_RIGHT || 
 				wireTile.connectionType == ConnectionType.LEFT_AND_RIGHT ||
 				wireTile.connectionType == ConnectionType.UP_AND_DOWN_AND_LEFT_AND_RIGHT) 
 				&& 
-				(RIGHT.wireTile.connectionType == ConnectionType.LEFT_AND_DOWN || 
+				(RIGHT.isRazor || RIGHT.wireTile && ((RIGHT.wireTile.connectionType == ConnectionType.LEFT_AND_DOWN || 
 				RIGHT.wireTile.connectionType == ConnectionType.UP_AND_LEFT || 
 				RIGHT.wireTile.connectionType == ConnectionType.LEFT_AND_RIGHT || 
-				RIGHT.wireTile.connectionType == ConnectionType.UP_AND_DOWN_AND_LEFT_AND_RIGHT)):
+				RIGHT.wireTile.connectionType == ConnectionType.UP_AND_DOWN_AND_LEFT_AND_RIGHT)))):
 					return true
 		if(direction == "LEFT"):
 			if(LEFT && LEFT.wireTile != null):

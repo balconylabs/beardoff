@@ -12,7 +12,7 @@ var lastTickTime = 0
 var currentTick = 0
 
 #how long a tick takes
-var secondsPerTick = 10
+var secondsPerTick = 2
 
 #node variables
 var gameOverNode
@@ -68,6 +68,8 @@ var solutionPath = []
 
 func _ready():
 	
+	randomize()
+	
 	gameOverScene = load("res://Scenes/GameOverScene.tscn")
 	gameOverNode = gameOverScene.instance()
 	
@@ -122,7 +124,7 @@ func initTileQueue():
 		get_node("WireTilesNode").add_child(tileQueue[i],true)
 		tileQueue[i].set_position(Vector2(TILE_X_OFFSET + QUEUE_X_OFFSET, i * TILE_HEIGHT + TILE_Y_OFFSET + QUEUE_Y_OFFSET))
 		
-	if(OS.is_debug_build()): print("init queue: ",tileQueue)
+#	if(OS.is_debug_build()): print("init queue: ",tileQueue)
 		
 func initGameBoard():
 	
@@ -141,17 +143,26 @@ func initGameBoard():
 			gameboard[i].append(boardSpaceScene.instance())
 			gameboard[i][j].set_position(Vector2(i * TILE_WIDTH + TILE_X_OFFSET + GB_X_OFFSET, j * TILE_HEIGHT + TILE_Y_OFFSET + GB_Y_OFFSET))
 			get_node("GameBoardNode").add_child(gameboard[i][j],true)
+			#set text label for node
+			gameboard[i][j].label = str(i)+","+str(j)
 			#set start and end tiles
 			if(i == 0 && j == 0):
+				#is the plug
 				gameboard[i][j].isPlug = true
 				gameboard[i][j].get_node("Area2D/icon").show()
 				gameboard[i][j].get_node("Area2D/empty_tile_64x64").hide()
 				gameboard[i][j].isEmpty = false
+				gameboard[i][j].label += "P"
 			if(i == GB_COLS-1 && j == GB_ROWS-1):
+				#is the razor
 				gameboard[i][j].isRazor = true
 				gameboard[i][j].get_node("Area2D/icon").show()
 				gameboard[i][j].get_node("Area2D/empty_tile_64x64").hide()
 				gameboard[i][j].isEmpty = false	
+				gameboard[i][j].label += "R"
+#				if(OS.is_debug_build()): print("razor node: ",gameboard[i][j])
+				
+#			if(OS.is_debug_build()): print("node label: ",gameboard[i][j].label)
 			
 	#set gameboard neighbors
 	for i in range(GB_COLS):
@@ -256,54 +267,102 @@ func enqueueNewTile():
 	
 	
 	
-func doCheck():
-	iterations = 0
-	solutionPath = []
+
+
+
+func checkForSolution():
 	if(findSolutionPath(gameboard[0][0])):
-		print("Win! iterations=", iterations)
-	else:
-		print("No Win... iterations=",iterations)
-
-
+		beardStatusNode.shave()
+		currentTick = 0
+		initGameBoard()
+		initTileQueue()
 
 
 func findSolutionPath(node):
-	iterations += 1
 
-	if(node == null):
-		return false
+	solutionPath = []
+	var visited = []
+	var currentNode = node
+	var foundSolution = false
+#	var debugiter=0
+	
+	while(true):
+#		if(OS.is_debug_build()): print("currentNode: ",currentNode.label)
+#		if(OS.is_debug_build()): print("while start")
+		#debugiter += 1
+#		if(OS.is_debug_build()): print(" iter=",debugiter)
+#		if(OS.is_debug_build()): print(" cnode=",currentNode)
+
+		if(currentNode == null):
+			foundSolution = false
+			break
 		
-
-	if(node.isRazor):
-		return true
-
-
-	if(node == null):
-		return false
+#		if(OS.is_debug_build()): print(" not null")
+				
+		if(!solutionPath.has(currentNode)):
+			solutionPath.push_back(currentNode)
+#			if(OS.is_debug_build()): printSolutionPath()
 		
+		if(currentNode.isRazor):
+			foundSolution = true
+			break
 
-	solutionPath.push_back(node)
+#		if(OS.is_debug_build()): print(" not razor")
 	
+		
+			
 
-	if(node.isConnectedTo("UP") && findSolutionPath(node.UP)):
-		return true;
-	
+#		if(OS.is_debug_build()): print(" pushed node")		
+#		if(OS.is_debug_build()): print(" cnode=",currentNode)
+#		if(OS.is_debug_build()): print(" solPath=",solutionPath)
 
-	if(node.isConnectedTo("DOWN") && findSolutionPath(node.DOWN)):
-		return true;
+		if(currentNode.isConnectedTo("UP") && !solutionPath.has(currentNode.UP)&& !visited.has(currentNode.UP)):
+			currentNode = currentNode.UP
+			continue
+#		if(OS.is_debug_build()): print(" not up")
 	
+		if(currentNode.isConnectedTo("DOWN") && !solutionPath.has(currentNode.DOWN)&& !visited.has(currentNode.DOWN)):
+			currentNode = currentNode.DOWN
+			continue
+#		if(OS.is_debug_build()): print(" not down")
+#	
+		if(currentNode.isConnectedTo("LEFT") && !solutionPath.has(currentNode.LEFT)&& !visited.has(currentNode.LEFT)):
+			currentNode = currentNode.LEFT
+			continue
+#		if(OS.is_debug_build()): print(" not left")
+		
+		if(currentNode.isConnectedTo("RIGHT") && !solutionPath.has(currentNode.RIGHT)&& !visited.has(currentNode.RIGHT)):
+			currentNode = currentNode.RIGHT
+			continue
+#		if(OS.is_debug_build()): print(" not right")
 
-	if(node.isConnectedTo("LEFT") && findSolutionPath(node.LEFT)):
-		return true;
-	
-	
-	if(node.isConnectedTo("RIGHT") && findSolutionPath(node.RIGHT)):
-		return true;
-	
-	
+		visited.push_back(solutionPath.pop_back())
 
-	solutionPath.pop_back()
+#		if(OS.is_debug_build()): print(" visited pushed, solution popped")
+#		if(OS.is_debug_build()): print(" cnode=",currentNode)
+#		if(OS.is_debug_build()): print(" solPath=",solutionPath)
+		
+#		if(OS.is_debug_build()): print(" solutionPath.size=",solutionPath.size())
+		if(solutionPath.size() > 0):
+#			if(OS.is_debug_build()): print(" back to old node")
+			currentNode = solutionPath.back()
+#			if(OS.is_debug_build()): print(" cnode=",currentNode)
+#			if(OS.is_debug_build()): print(" solPath=",solutionPath)
+		else:
+			break
 	
 	
+	
+#	if(OS.is_debug_build()): print("win=",foundSolution)
+	return foundSolution
+	
+func printSolutionPath():
 
-	return false
+	var pathstring=""
+	for n in solutionPath:
+
+		pathstring = pathstring + n.label + " "
+	print(pathstring)
+	
+	
+	
