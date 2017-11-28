@@ -2,7 +2,7 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/HeroBeard_sprite.png-d69dc9d40db4eb9d0ff7fd4cdb5b6464.stex"
+path="res://.import/razor_vert_v01.png-559abe62b7f464abaee1218620585dff.stex"
 
 [params]
 
@@ -11,7 +11,7 @@ compress/lossy_quality=0.7
 compress/hdr_mode=0
 compress/normal_map=0
 flags/repeat=0
-flags/filter=false
+flags/filter=true
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2
