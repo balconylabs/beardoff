@@ -10,9 +10,9 @@ config_version=3
 
 [application]
 
-config/name="Beardly"
+config/name="Beard Off"
 run/main_scene="res://Scenes/MainScene.tscn"
-config/icon="res://icon.png"
+config/icon="res://Sprites/razor_horiz_v01.png"
 
 [display]
 
