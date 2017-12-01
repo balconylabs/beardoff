@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Scripts/GameOverScript.gd" type="Script" id=1]
+[ext_resource path="res://Sprites/gameOver_v01.png" type="Texture" id=2]
 
 [node name="Control" type="Control"]
 
@@ -23,8 +24,8 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 766.0
-margin_bottom = 573.0
+margin_right = 844.0
+margin_bottom = 600.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
@@ -32,41 +33,14 @@ size_flags_horizontal = 1
 size_flags_vertical = 1
 _sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "Rect" ]
 
-[node name="Label" type="Label" parent="Panel"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 235.0
-margin_top = 41.0
-margin_right = 308.0
-margin_bottom = 89.0
-rect_scale = Vector2( 5, 5 )
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 2
-size_flags_horizontal = 1
-size_flags_vertical = 4
-text = "Game over due to beard"
-align = 1
-autowrap = true
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
-_sections_unfolded = [ "Rect" ]
-
 [node name="Button" type="Button" parent="Panel"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 241.0
-margin_top = 292.0
-margin_right = 308.0
-margin_bottom = 345.0
-rect_scale = Vector2( 5, 5 )
+margin_right = 844.0
+margin_bottom = 600.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
@@ -76,9 +50,14 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-text = "Restart"
 flat = false
 _sections_unfolded = [ "Rect" ]
+
+[node name="gameOver_v01" type="Sprite" parent="Panel/Button"]
+
+position = Vector2( 366, 302 )
+texture = ExtResource( 2 )
+_sections_unfolded = [ "Offset", "Region", "Transform" ]
 
 [connection signal="pressed" from="Panel/Button" to="." method="_on_Button_pressed"]
 

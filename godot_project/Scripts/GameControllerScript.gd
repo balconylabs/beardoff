@@ -12,7 +12,7 @@ var lastTickTime = 0
 var currentTick = 0
 
 #how long a tick takes
-var secondsPerTick = 2
+var secondsPerTick = .1
 
 #node variables
 var gameOverNode
