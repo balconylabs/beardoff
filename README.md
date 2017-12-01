@@ -1,8 +1,7 @@
 # Beard Off
 ## Submission for #GitHubGameOff 2017
 
- By connecting an electric razor to a power source, you must prevent your beard from growing into the looming lava pit.
-
+Prevent your beard from growing into the looming lava pit below. Connect the razor to power before it's too late!
 
 ### Game Design by 
  - Aaron Askew (<aaronaskew@gmail.com>)
