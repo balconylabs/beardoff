@@ -18,5 +18,7 @@
 
 
 
-Made with Godot 3.0 alpha2 (https://downloads.tuxfamily.org/godotengine/3.0/alpha2)
-
+Made with 
+- Godot 3.0 alpha2 (https://downloads.tuxfamily.org/godotengine/3.0/alpha2)
+- Piskel (https://www.piskelapp.com/)
+- Gimp (https://www.gimp.org/)
