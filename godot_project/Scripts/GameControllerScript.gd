@@ -12,7 +12,7 @@ var lastTickTime = 0
 var currentTick = 0
 
 #how long a tick takes
-var secondsPerTick = .1
+var secondsPerTick = 1
 
 #node variables
 var gameOverNode
@@ -278,6 +278,16 @@ func enqueueNewTile():
 func checkForSolution():
 	if(findSolutionPath(gameboard[0][0])):
 		beardStatusNode.shave()
+		
+		#wait three seconds
+		var t = Timer.new()
+		t.set_wait_time(3)
+		t.set_one_shot(true)
+		self.add_child(t)
+		t.start()
+		yield(t, "timeout")
+		t.queue_free()
+		
 		currentTick = 0
 		initGameBoard()
 		initTileQueue()
