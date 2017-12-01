@@ -1,5 +1,5 @@
 # Beard Off
-## Balcony Labs submission for #GitHubGameOff 2017
+## Submission for #GitHubGameOff 2017
 
  By connecting an electric razor to a power source, you must prevent your beard from growing into the looming lava pit.
 
