@@ -45,8 +45,9 @@ const TILE_Y_OFFSET = 32
 
 var tileQueue
 const QUEUE_LENGTH = 5
-const QUEUE_X_OFFSET = 300
+const QUEUE_X_OFFSET = 250
 const QUEUE_Y_OFFSET = 0
+const QUEUE_NEXT_Y_OFFSET = 4 
 
 #define the different ways tiles can connect
 enum ConnectionType {
@@ -122,8 +123,10 @@ func initTileQueue():
 		#tileQueue.push_back(boardSpaceScene.instance())
 		tileQueue.push_back(randomWireTile())
 		get_node("WireTilesNode").add_child(tileQueue[i],true)
-		tileQueue[i].set_position(Vector2(TILE_X_OFFSET + QUEUE_X_OFFSET, i * TILE_HEIGHT + TILE_Y_OFFSET + QUEUE_Y_OFFSET))
-		
+		if(i < QUEUE_LENGTH-1):
+			tileQueue[i].set_position(Vector2(TILE_X_OFFSET + QUEUE_X_OFFSET, i * TILE_HEIGHT + TILE_Y_OFFSET + QUEUE_Y_OFFSET))
+		else:
+			tileQueue[i].set_position(Vector2(TILE_X_OFFSET + QUEUE_X_OFFSET, i * TILE_HEIGHT + TILE_Y_OFFSET + QUEUE_Y_OFFSET + QUEUE_NEXT_Y_OFFSET))
 #	if(OS.is_debug_build()): print("init queue: ",tileQueue)
 		
 func initGameBoard():
@@ -258,6 +261,8 @@ func enqueueNewTile():
 		#reposition all the tiles in the queue down by 1 tile
 	for tile in tileQueue:
 		tile.set_position(tile.position + Vector2(0,TILE_HEIGHT))
+		if(tile == tileQueue.back()):
+			tile.set_position(tile.position + Vector2(0,QUEUE_NEXT_Y_OFFSET))
 
 	var newTile = randomWireTile()
 	newTile.set_position(Vector2(TILE_X_OFFSET + QUEUE_X_OFFSET, TILE_Y_OFFSET + QUEUE_Y_OFFSET))

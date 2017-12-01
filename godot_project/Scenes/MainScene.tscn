@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Scripts/GameControllerScript.gd" type="Script" id=1]
+[ext_resource path="res://Sprites/nextTile_backdrop.png" type="Texture" id=2]
 
 [node name="gameController" type="Node2D"]
 
@@ -15,5 +16,11 @@ _sections_unfolded = [ "Z" ]
 [node name="GameBoardNode" type="Node" parent="."]
 
 [node name="WireTilesNode" type="Node" parent="."]
+
+[node name="nextTile_backdrop" type="Sprite" parent="."]
+
+position = Vector2( 282, 292 )
+texture = ExtResource( 2 )
+_sections_unfolded = [ "Offset", "Transform" ]
 
 
