@@ -152,14 +152,14 @@ func initGameBoard():
 			if(i == 0 && j == 0):
 				#is the plug
 				gameboard[i][j].isPlug = true
-				gameboard[i][j].get_node("Area2D/icon").show()
+				gameboard[i][j].get_node("Area2D/plug_2_connections").show()
 				gameboard[i][j].get_node("Area2D/empty_tile_64x64").hide()
 				gameboard[i][j].isEmpty = false
 				gameboard[i][j].label += "P"
 			if(i == GB_COLS-1 && j == GB_ROWS-1):
 				#is the razor
 				gameboard[i][j].isRazor = true
-				gameboard[i][j].get_node("Area2D/icon").show()
+				gameboard[i][j].get_node("Area2D/razor_2_connections").show()
 				gameboard[i][j].get_node("Area2D/empty_tile_64x64").hide()
 				gameboard[i][j].isEmpty = false	
 				gameboard[i][j].label += "R"

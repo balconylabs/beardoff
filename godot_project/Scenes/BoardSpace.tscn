@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Scripts/BoardSpace.gd" type="Script" id=1]
 [ext_resource path="res://Sprites/empty_tile_64x64.png" type="Texture" id=2]
-[ext_resource path="res://icon.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/plug_2_connections.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/razor_2_connections.png" type="Texture" id=4]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -33,11 +34,15 @@ _sections_unfolded = [ "Animation", "Transform" ]
 
 shape = SubResource( 1 )
 
-[node name="icon" type="Sprite" parent="Area2D"]
+[node name="plug_2_connections" type="Sprite" parent="Area2D"]
 
 visible = false
 texture = ExtResource( 3 )
-_sections_unfolded = [ "Transform" ]
+
+[node name="razor_2_connections" type="Sprite" parent="Area2D"]
+
+visible = false
+texture = ExtResource( 4 )
 
 [connection signal="input_event" from="Area2D" to="." method="_on_Area2D_input_event"]
 
