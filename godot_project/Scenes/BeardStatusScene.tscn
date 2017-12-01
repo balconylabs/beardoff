@@ -1,10 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Scripts/BeardStatusScene.gd" type="Script" id=1]
 [ext_resource path="res://Sprites/HeroBeard_sprite.png" type="Texture" id=2]
 [ext_resource path="res://Sprites/beardMask.png" type="Texture" id=3]
-
-
+[ext_resource path="res://Sprites/lava.png" type="Texture" id=4]
 
 [node name="BeardStatus" type="Node2D"]
 
@@ -45,5 +44,11 @@ z = -3
 texture = ExtResource( 3 )
 offset = Vector2( 12, 40 )
 _sections_unfolded = [ "Offset", "Transform", "Z" ]
+
+[node name="lava" type="Sprite" parent="."]
+
+texture = ExtResource( 4 )
+offset = Vector2( 12, 40 )
+_sections_unfolded = [ "Offset", "Transform" ]
 
 

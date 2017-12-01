@@ -2,7 +2,7 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/razor_horiz_v01.png-f1e212fde5c7090f25c3e51ae77f3ebd.stex"
+path="res://.import/gameOver_v01.png-e778c9528d9584a6fa6271bb40c55fa1.stex"
 
 [params]
 
@@ -11,7 +11,7 @@ compress/lossy_quality=0.7
 compress/hdr_mode=0
 compress/normal_map=0
 flags/repeat=0
-flags/filter=false
+flags/filter=true
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2

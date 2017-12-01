@@ -12,7 +12,7 @@ var lastTickTime = 0
 var currentTick = 0
 
 #how long a tick takes
-var secondsPerTick = 2
+var secondsPerTick = 1
 
 #node variables
 var gameOverNode
@@ -45,8 +45,9 @@ const TILE_Y_OFFSET = 32
 
 var tileQueue
 const QUEUE_LENGTH = 5
-const QUEUE_X_OFFSET = 300
+const QUEUE_X_OFFSET = 250
 const QUEUE_Y_OFFSET = 0
+const QUEUE_NEXT_Y_OFFSET = 4 
 
 #define the different ways tiles can connect
 enum ConnectionType {
@@ -110,6 +111,8 @@ func _process(delta):
 			
 		if(beardStatusNode.isTooLong()):
 			lose()
+			
+	#if(OS.is_debug_build()): print("curTick: ",currentTick," lastTick:",lastTickTime," elapTime:",elapsedTime)
 
 func initTileQueue():
 	
@@ -122,8 +125,10 @@ func initTileQueue():
 		#tileQueue.push_back(boardSpaceScene.instance())
 		tileQueue.push_back(randomWireTile())
 		get_node("WireTilesNode").add_child(tileQueue[i],true)
-		tileQueue[i].set_position(Vector2(TILE_X_OFFSET + QUEUE_X_OFFSET, i * TILE_HEIGHT + TILE_Y_OFFSET + QUEUE_Y_OFFSET))
-		
+		if(i < QUEUE_LENGTH-1):
+			tileQueue[i].set_position(Vector2(TILE_X_OFFSET + QUEUE_X_OFFSET, i * TILE_HEIGHT + TILE_Y_OFFSET + QUEUE_Y_OFFSET))
+		else:
+			tileQueue[i].set_position(Vector2(TILE_X_OFFSET + QUEUE_X_OFFSET, i * TILE_HEIGHT + TILE_Y_OFFSET + QUEUE_Y_OFFSET + QUEUE_NEXT_Y_OFFSET))
 #	if(OS.is_debug_build()): print("init queue: ",tileQueue)
 		
 func initGameBoard():
@@ -149,14 +154,14 @@ func initGameBoard():
 			if(i == 0 && j == 0):
 				#is the plug
 				gameboard[i][j].isPlug = true
-				gameboard[i][j].get_node("Area2D/icon").show()
+				gameboard[i][j].get_node("Area2D/plug_2_connections").show()
 				gameboard[i][j].get_node("Area2D/empty_tile_64x64").hide()
 				gameboard[i][j].isEmpty = false
 				gameboard[i][j].label += "P"
 			if(i == GB_COLS-1 && j == GB_ROWS-1):
 				#is the razor
 				gameboard[i][j].isRazor = true
-				gameboard[i][j].get_node("Area2D/icon").show()
+				gameboard[i][j].get_node("Area2D/razor_2_connections").show()
 				gameboard[i][j].get_node("Area2D/empty_tile_64x64").hide()
 				gameboard[i][j].isEmpty = false	
 				gameboard[i][j].label += "R"
@@ -258,6 +263,8 @@ func enqueueNewTile():
 		#reposition all the tiles in the queue down by 1 tile
 	for tile in tileQueue:
 		tile.set_position(tile.position + Vector2(0,TILE_HEIGHT))
+		if(tile == tileQueue.back()):
+			tile.set_position(tile.position + Vector2(0,QUEUE_NEXT_Y_OFFSET))
 
 	var newTile = randomWireTile()
 	newTile.set_position(Vector2(TILE_X_OFFSET + QUEUE_X_OFFSET, TILE_Y_OFFSET + QUEUE_Y_OFFSET))
@@ -273,7 +280,20 @@ func enqueueNewTile():
 func checkForSolution():
 	if(findSolutionPath(gameboard[0][0])):
 		beardStatusNode.shave()
+		
+		#wait three seconds
+		var t = Timer.new()
+		t.set_wait_time(3)
+		t.set_one_shot(true)
+		self.add_child(t)
+		t.start()
+		yield(t, "timeout")
+		t.queue_free()
+		
+		elapsedTime = 0
+		lastTickTime = 0
 		currentTick = 0
+
 		initGameBoard()
 		initTileQueue()
 
