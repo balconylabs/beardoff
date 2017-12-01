@@ -111,6 +111,8 @@ func _process(delta):
 			
 		if(beardStatusNode.isTooLong()):
 			lose()
+			
+	#if(OS.is_debug_build()): print("curTick: ",currentTick," lastTick:",lastTickTime," elapTime:",elapsedTime)
 
 func initTileQueue():
 	
@@ -288,7 +290,10 @@ func checkForSolution():
 		yield(t, "timeout")
 		t.queue_free()
 		
+		elapsedTime = 0
+		lastTickTime = 0
 		currentTick = 0
+
 		initGameBoard()
 		initTileQueue()
 
