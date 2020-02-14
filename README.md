@@ -1,3 +1,7 @@
+This repository is now being hosted at https://bitbucket.org/balconylabs/beardoff
+
+------------------------
+
 # Beard Off
 ## Submission for #GitHubGameOff 2017
 
